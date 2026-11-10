@@ -43,6 +43,7 @@ module.exports = {
     description: 'AWS EC2 instance records',
     columns: [
       { name: 'id', type: 'string', nullable: false },
+      { name: 'name', type: 'string' },
       { name: 'instance_type', type: 'string', filterable: true, groupable: true, enum: ['t3.small', 't3.medium', 'm5.large', 'c5.xlarge'] },
       { name: 'state', type: 'string', filterable: true, groupable: true, enum: ['pending', 'running', 'stopping', 'stopped', 'terminated'] },
       { name: 'region', type: 'string', filterable: true, groupable: true, enum: ['us-east-1', 'us-west-2', 'eu-west-1'] },
@@ -51,9 +52,9 @@ module.exports = {
       { name: 'launched_at', type: 'datetime' },
     ],
     rows: [
-      { id: 'i-0a1', instance_type: 't3.medium', state: 'running', region: 'us-east-1', vcpus: 2, cost_per_hour: 0.0416, launched_at: '2026-09-01T08:00:00Z' },
-      { id: 'i-0b2', instance_type: 'm5.large', state: 'stopped', region: 'eu-west-1', vcpus: 2, cost_per_hour: 0.096, launched_at: '2026-06-18T12:30:00Z' },
-      { id: 'i-0c3', instance_type: 'c5.xlarge', state: 'running', region: 'us-west-2', vcpus: 4, cost_per_hour: 0.17, launched_at: '2026-10-27T21:15:00Z' },
+      { id: 'i-0a1', name: 'web-1', instance_type: 't3.medium', state: 'running', region: 'us-east-1', vcpus: 2, cost_per_hour: 0.0416, launched_at: '2026-09-01T08:00:00Z' },
+      { id: 'i-0b2', name: 'batch-1', instance_type: 'm5.large', state: 'stopped', region: 'eu-west-1', vcpus: 2, cost_per_hour: 0.096, launched_at: '2026-06-18T12:30:00Z' },
+      { id: 'i-0c3', name: 'api-1', instance_type: 'c5.xlarge', state: 'running', region: 'us-west-2', vcpus: 4, cost_per_hour: 0.17, launched_at: '2026-10-27T21:15:00Z' },
     ],
   },
 };
