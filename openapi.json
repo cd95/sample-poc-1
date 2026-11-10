@@ -1,0 +1,284 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Data Source POC API",
+    "description": "Self-describing data source. Clients list the available tables, ask for each table's columns, then read rows. New tables and columns appear in the first two endpoints without any client change.",
+    "version": "2.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health check",
+        "operationId": "getHealth",
+        "responses": {
+          "200": {
+            "description": "Service is up",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/meta/tables": {
+      "get": {
+        "summary": "List available tables",
+        "operationId": "listTables",
+        "responses": {
+          "200": {
+            "description": "One entry per table",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TableInfo"
+                  }
+                },
+                "example": [
+                  {
+                    "id": "github",
+                    "name": "github",
+                    "description": "GitHub repository records"
+                  },
+                  {
+                    "id": "okta",
+                    "name": "okta",
+                    "description": "Okta user records"
+                  },
+                  {
+                    "id": "aws",
+                    "name": "aws",
+                    "description": "AWS EC2 instance records"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/meta/tables/{id}/columns": {
+      "get": {
+        "summary": "Describe the columns of one table",
+        "operationId": "describeTable",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/TableId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Column metadata for the table",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TableDescription"
+                },
+                "example": {
+                  "columns": [
+                    {
+                      "name": "id",
+                      "type": "string",
+                      "nullable": false
+                    },
+                    {
+                      "name": "status",
+                      "type": "string"
+                    },
+                    {
+                      "name": "login",
+                      "type": "string"
+                    },
+                    {
+                      "name": "first_name",
+                      "type": "string"
+                    },
+                    {
+                      "name": "last_name",
+                      "type": "string"
+                    },
+                    {
+                      "name": "last_login",
+                      "type": "datetime"
+                    },
+                    {
+                      "name": "department",
+                      "type": "string"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/{id}": {
+      "get": {
+        "summary": "Get all rows of a table",
+        "operationId": "getTableData",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/TableId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of flat records. Keys match the column names from the describe endpoint.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": true
+                  }
+                },
+                "example": [
+                  {
+                    "id": "00u1a",
+                    "status": "ACTIVE",
+                    "login": "alice@acme.example",
+                    "first_name": "Alice",
+                    "last_name": "Johnson",
+                    "last_login": "2026-11-05T09:12:00Z",
+                    "department": "Engineering"
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "TableId": {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "Table id exactly as returned by the tables endpoint.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "responses": {
+      "NotFound": {
+        "description": "Unknown table",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "TableInfo": {
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Opaque id used in URLs",
+            "example": "okta"
+          },
+          "name": {
+            "type": "string",
+            "description": "SQL table name shown to users",
+            "example": "okta"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "TableDescription": {
+        "type": "object",
+        "required": [
+          "columns"
+        ],
+        "properties": {
+          "columns": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Column"
+            }
+          }
+        }
+      },
+      "Column": {
+        "type": "object",
+        "required": [
+          "name",
+          "type"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "department"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type vocabulary the connector maps to Trino types.",
+            "enum": [
+              "string",
+              "integer",
+              "long",
+              "double",
+              "boolean",
+              "date",
+              "datetime"
+            ]
+          },
+          "nullable": {
+            "type": "boolean",
+            "default": true
+          },
+          "filterable": {
+            "type": "boolean",
+            "default": false
+          },
+          "groupable": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      }
+    }
+  }
+}
