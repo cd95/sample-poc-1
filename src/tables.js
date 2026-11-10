@@ -31,11 +31,12 @@ module.exports = {
       { name: 'last_name', type: 'string' },
       { name: 'last_login', type: 'datetime' },
       { name: 'department', type: 'string', filterable: true, groupable: true, enum: ['Engineering', 'Finance', 'Marketing', 'Sales', 'HR'] },
+      { name: 'mfa_enrolled', type: 'boolean', filterable: true },
     ],
     rows: [
-      { id: '00u1a', status: 'ACTIVE', login: 'alice@acme.example', first_name: 'Alice', last_name: 'Johnson', last_login: '2026-11-05T09:12:00Z', department: 'Engineering' },
-      { id: '00u1b', status: 'ACTIVE', login: 'bob@acme.example', first_name: 'Bob', last_name: 'Smith', last_login: '2026-11-08T17:40:00Z', department: 'Finance' },
-      { id: '00u1c', status: 'SUSPENDED', login: 'carol@acme.example', first_name: 'Carol', last_name: 'Lee', last_login: null, department: 'Engineering' },
+      { id: '00u1a', status: 'ACTIVE', login: 'alice@acme.example', first_name: 'Alice', last_name: 'Johnson', last_login: '2026-11-05T09:12:00Z', department: 'Engineering', mfa_enrolled: true },
+      { id: '00u1b', status: 'ACTIVE', login: 'bob@acme.example', first_name: 'Bob', last_name: 'Smith', last_login: '2026-11-08T17:40:00Z', department: 'Finance', mfa_enrolled: true },
+      { id: '00u1c', status: 'SUSPENDED', login: 'carol@acme.example', first_name: 'Carol', last_name: 'Lee', last_login: null, department: 'Engineering', mfa_enrolled: false },
     ],
   },
 
