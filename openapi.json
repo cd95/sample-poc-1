@@ -276,6 +276,18 @@
           "groupable": {
             "type": "boolean",
             "default": false
+          },
+          "enum": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Allowed values for the column. Present only on columns with a known, fixed set of values.",
+            "example": [
+              "ACTIVE",
+              "SUSPENDED",
+              "DEPROVISIONED"
+            ]
           }
         }
       }

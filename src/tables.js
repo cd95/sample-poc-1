@@ -1,5 +1,6 @@
 // Table registry. Add a table or column here and the meta endpoints pick it up
-// automatically. Column types: string | integer | long | double | boolean | date | datetime
+// automatically. Optional column.enum lists the allowed values of a column.
+// Column types: string | integer | long | double | boolean | date | datetime
 
 module.exports = {
   github: {
@@ -8,7 +9,7 @@ module.exports = {
       { name: 'id', type: 'string', nullable: false },
       { name: 'name', type: 'string' },
       { name: 'owner', type: 'string', filterable: true, groupable: true },
-      { name: 'language', type: 'string', filterable: true, groupable: true },
+      { name: 'language', type: 'string', filterable: true, groupable: true, enum: ['TypeScript', 'Java', 'Python', 'Go', 'HCL', 'JavaScript'] },
       { name: 'stars', type: 'integer' },
       { name: 'private', type: 'boolean', filterable: true },
       { name: 'created_at', type: 'date' },
@@ -24,12 +25,12 @@ module.exports = {
     description: 'Okta user records',
     columns: [
       { name: 'id', type: 'string', nullable: false },
-      { name: 'status', type: 'string', filterable: true, groupable: true },
+      { name: 'status', type: 'string', filterable: true, groupable: true, enum: ['STAGED', 'PROVISIONED', 'ACTIVE', 'SUSPENDED', 'DEPROVISIONED'] },
       { name: 'login', type: 'string' },
       { name: 'first_name', type: 'string' },
       { name: 'last_name', type: 'string' },
       { name: 'last_login', type: 'datetime' },
-      { name: 'department', type: 'string', filterable: true, groupable: true },
+      { name: 'department', type: 'string', filterable: true, groupable: true, enum: ['Engineering', 'Finance', 'Marketing', 'Sales', 'HR'] },
     ],
     rows: [
       { id: '00u1a', status: 'ACTIVE', login: 'alice@acme.example', first_name: 'Alice', last_name: 'Johnson', last_login: '2026-11-05T09:12:00Z', department: 'Engineering' },
@@ -42,9 +43,9 @@ module.exports = {
     description: 'AWS EC2 instance records',
     columns: [
       { name: 'id', type: 'string', nullable: false },
-      { name: 'instance_type', type: 'string', filterable: true, groupable: true },
-      { name: 'state', type: 'string', filterable: true, groupable: true },
-      { name: 'region', type: 'string', filterable: true, groupable: true },
+      { name: 'instance_type', type: 'string', filterable: true, groupable: true, enum: ['t3.small', 't3.medium', 'm5.large', 'c5.xlarge'] },
+      { name: 'state', type: 'string', filterable: true, groupable: true, enum: ['pending', 'running', 'stopping', 'stopped', 'terminated'] },
+      { name: 'region', type: 'string', filterable: true, groupable: true, enum: ['us-east-1', 'us-west-2', 'eu-west-1'] },
       { name: 'vcpus', type: 'integer' },
       { name: 'cost_per_hour', type: 'double' },
       { name: 'launched_at', type: 'datetime' },
