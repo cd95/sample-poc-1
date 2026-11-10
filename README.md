@@ -37,7 +37,7 @@ curl localhost:3000/api/okta
 
 ## Tables
 
-`github`, `okta` and `aws`, defined in [src/tables.js](src/tables.js). To add a table or column, edit that file. The meta endpoints pick it up automatically.
+`github`, `okta`, `qualys` and `aws`, defined in [src/tables.js](src/tables.js). To add a table or column, edit that file. The meta endpoints pick it up automatically.
 
 Column types: `string`, `integer`, `long`, `double`, `boolean`, `date`, `datetime`.
 

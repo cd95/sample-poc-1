@@ -39,6 +39,28 @@ module.exports = {
     ],
   },
 
+  qualys: {
+    description: 'Qualys vulnerability detection records',
+    columns: [
+      { name: 'id', type: 'string', nullable: false },
+      { name: 'hostname', type: 'string' },
+      { name: 'ip_address', type: 'string' },
+      { name: 'os', type: 'string', filterable: true, groupable: true, enum: ['Windows Server 2019', 'Ubuntu 22.04', 'RHEL 9', 'macOS 14'] },
+      { name: 'qid', type: 'integer' },
+      { name: 'title', type: 'string' },
+      { name: 'severity', type: 'integer', filterable: true, groupable: true },
+      { name: 'status', type: 'string', filterable: true, groupable: true, enum: ['New', 'Active', 'Fixed', 'Re-Opened'] },
+      { name: 'cvss_score', type: 'double' },
+      { name: 'first_found', type: 'datetime' },
+      { name: 'last_scanned', type: 'datetime' },
+    ],
+    rows: [
+      { id: 'q-1001', hostname: 'web-1', ip_address: '10.0.1.15', os: 'Ubuntu 22.04', qid: 38170, title: 'OpenSSL Outdated Version Detected', severity: 4, status: 'Active', cvss_score: 7.5, first_found: '2026-10-02T04:10:00Z', last_scanned: '2026-11-09T04:12:00Z' },
+      { id: 'q-1002', hostname: 'db-1', ip_address: '10.0.2.20', os: 'RHEL 9', qid: 91720, title: 'Kernel Privilege Escalation Vulnerability', severity: 5, status: 'New', cvss_score: 8.8, first_found: '2026-11-08T04:15:00Z', last_scanned: '2026-11-09T04:20:00Z' },
+      { id: 'q-1003', hostname: 'win-app-1', ip_address: '10.0.3.31', os: 'Windows Server 2019', qid: 91800, title: 'Windows SMB Remote Code Execution', severity: 5, status: 'Fixed', cvss_score: 9.8, first_found: '2026-08-14T05:00:00Z', last_scanned: '2026-11-09T05:05:00Z' },
+    ],
+  },
+
   aws: {
     description: 'AWS EC2 instance records',
     columns: [
