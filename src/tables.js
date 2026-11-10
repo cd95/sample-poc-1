@@ -11,13 +11,14 @@ module.exports = {
       { name: 'owner', type: 'string', filterable: true, groupable: true },
       { name: 'language', type: 'string', filterable: true, groupable: true, enum: ['TypeScript', 'Java', 'Python', 'Go', 'HCL', 'JavaScript'] },
       { name: 'stars', type: 'integer' },
+      { name: 'open_issues', type: 'integer' },
       { name: 'private', type: 'boolean', filterable: true },
       { name: 'created_at', type: 'date' },
     ],
     rows: [
-      { id: 'r1', name: 'web-app', owner: 'acme', language: 'TypeScript', stars: 120, private: false, created_at: '2024-03-14' },
-      { id: 'r2', name: 'infra', owner: 'acme', language: 'HCL', stars: 8, private: true, created_at: '2025-01-22' },
-      { id: 'r3', name: 'data-pipeline', owner: 'acme', language: 'Python', stars: 54, private: false, created_at: '2025-07-09' },
+      { id: 'r1', name: 'web-app', owner: 'acme', language: 'TypeScript', stars: 120, private: false, created_at: '2024-03-14', open_issues: 4 },
+      { id: 'r2', name: 'infra', owner: 'acme', language: 'HCL', stars: 8, private: true, created_at: '2025-01-22', open_issues: 0 },
+      { id: 'r3', name: 'data-pipeline', owner: 'acme', language: 'Python', stars: 54, private: false, created_at: '2025-07-09', open_issues: 11 },
     ],
   },
 
